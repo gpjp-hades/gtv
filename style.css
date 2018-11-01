@@ -1,0 +1,152 @@
+:root {
+    --title-color: #06c;
+    --title-top-bg: rgb(230, 230, 230);
+    --labels-color:rgb(0, 67, 167);
+    --curses-color:rgb(34, 46, 58);
+    --time-hour-color:  rgb(84, 90, 95);
+    --time-subject-color:  rgb(34, 46, 58);;
+    --border-top-color: rgb(0, 67, 167);
+}
+
+html {
+    min-height: 100%;
+}
+
+body {
+    min-height: 100%;
+    margin: 0;
+}
+
+div.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background-color: rgb(43, 43, 43);
+    color: #fff;
+    font-family: 'Oswald', sans-serif;
+    font-size: 15px;
+    line-height: 30px;
+    text-indent: 15px;
+    font-weight: 100;
+    letter-spacing: 0.5px;
+}
+div.footer span.right {
+    position: absolute;
+    right: 15px;
+    font-size: 13px;
+}
+
+h1.title {
+    color: var(--title-color);
+    font-family: 'Oswald', sans-serif;
+    margin: 0;
+    padding: 0 0 20px 50px;
+    font-size: 60px;
+    height: 80px;
+    background-color: var(--title-top-bg);
+}
+
+table.body {
+    width: 100%;
+    z-index: -1;
+    position: absolute;
+}
+
+table.header {
+    width: 100%;
+    z-index: 1;
+    height: 62px;
+}
+
+tr.header {
+    color: var(--labels-color);
+    font-family: 'Oswald', sans-serif;
+    font-size: 40px;
+    text-align: left;
+    height: 50px;
+    background-color: var(--title-top-bg);
+}
+
+tr.header th {
+    text-indent: 15px;
+}
+
+tr.header th.small {
+    font-size: 30px;
+    font-weight: 100;
+}
+
+tr.border td {
+    border-top: var(--border-top-color) solid 8px;
+    padding-top: 10px;
+}
+
+td.course {
+    vertical-align: top;
+    color: var(--curses-color);
+    font-family: 'Oswald', sans-serif;
+    font-size: 50px;
+    text-indent: 3%;
+    margin-bottom: 10px;
+}
+
+tr:not(.header) {
+    height: 80px;
+}
+
+tr.spacing-header {
+    height: 0;
+    border-spacing: 0;
+}
+
+tr.spacing-header th {
+    padding: 0;
+}
+
+td.time {
+    font-family: 'Oswald', sans-serif;
+    text-align: left;
+    vertical-align: top;
+    text-indent: 15px;
+    padding-top: 5px;
+}
+
+td.time span.hour {
+    font-size: 40px;
+    color: var(--time-hour-color);
+    font-weight: 100;
+}
+
+td.time span.subject {
+    font-size: 50px;
+    margin-left: 5px;
+    color: var(--time-subject-color);
+}
+
+td.change {
+    font-family: 'Oswald', sans-serif;
+    text-align: left;
+    vertical-align: middle;
+    text-indent: 15px;
+    padding-top: 5px;
+}
+
+td.change.label {
+    color: var(--time-hour-color);
+    font-size: 40px;
+    margin-right: 20px;
+}
+
+td.change.from {
+    color: var(--time-hour-color);
+    font-size: 40px;
+    font-weight: 100;
+}
+
+td.change.to {
+    color: var(--time-subject-color);
+    font-size: 50px;
+    margin-right: 30px;
+}
