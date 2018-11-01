@@ -6,6 +6,7 @@ $context = stream_context_create($opts);
 $html = file_get_contents("https://aplikace.skolaonline.cz/SOL/PublicWeb/gpjp/KWE014_VypisTridDenni.aspx", false, $context);
 
 //file_put_contents("./test_data", $html);
+//exit;
 //*/
 
 //$html = file_get_contents("./test_data");
@@ -70,10 +71,32 @@ foreach ($nlist as $node) {
                     "to"      => str_replace(["<span class=AbsZdroj>", "</span>"], "", $entry["Učitel:"])
                 ];
             }
+        } else if (array_key_exists("Spojení:", $entry)) {
+            $info_blocks = explode("<br />", $entry["Spojení:"]);
+            $info1 = explode(", ", $info_blocks[0]);
+            $info2 = explode(", ", $info_blocks[1]);
+            if (strpos($info1[2], "<span class=AbsZdroj>") === 0) {
+                $new = [
+                    "time"    => $time,
+                    "subject" => $info1[1],
+                    "type"    => "merge",
+                    "from"    => $info1[4] . " - " . str_replace(["<span class=AbsZdroj>", "</span>"], "", $info1[2]) ,
+                    "to"      => $info2[4]. " - " . $info2[2]
+                ];
+            } else if (strpos($info2[2], "<span class=AbsZdroj>") === 0) {
+                $new = [
+                    "time"    => $time,
+                    "subject" => $info1[1],
+                    "type"    => "merge",
+                    "from"    => $info2[4] . " - " . str_replace(["<span class=AbsZdroj>", "</span>"], "", $info2[2]),
+                    "to"      => $info1[4] . " - " . $info1[2]
+                ];
+            }
         }
 
         if (count($new) == 0) {
-            array_push($data[$class], ["time" => $time, "type" => "unknown"]);
+            if (!in_array(["time" => $time, "type" => "unknown"], $data[$class]))
+                array_push($data[$class], ["time" => $time, "type" => "unknown"]);
         } else if (in_array($new, $data[$class])) {
             continue;
         } else
@@ -81,13 +104,16 @@ foreach ($nlist as $node) {
     }
 }
 
+//echo json_encode($data);
+//exit;
+
 /**
  * data response:
  * 
  * class: {class name}
  *  time: {name}
  *  subject: {name}
- *  type: {teacher},{room},{remove},{add}
+ *  type: {teacher},{room},{remove},{add},{merge}
  *  [teacher,room]
  *   from: {name}
  *   to:   {name}
@@ -95,6 +121,9 @@ foreach ($nlist as $node) {
  *  [added]
  *   room:    {room}
  *   teacher: {name}
+ *  [merge]
+ *   from: {name}
+ *   to:   {name}
  */
 ?>
 <!DOCTYPE html>
@@ -143,8 +172,9 @@ foreach ($data as $class => $rows) {
         echo '<td class="time"><span class="hour">'.
         $row['time'].
         '.</span><span class="subject">'.
-        explode(" ", $row['subject'])[0].
+        explode(" ", (array_key_exists('subject', $row) ? $row['subject'] : "?"))[0].
         '</span></td>' . PHP_EOL;
+        
         if ($row['type'] == 'room') {
             echo '<td class="change label">Učebna</td>
             <td class="change to">'.roomName($row['to']).'</td>
@@ -158,6 +188,12 @@ foreach ($data as $class => $rows) {
             <td class="change to">'.roomName($row['room']).' - '.$row['teacher'].'</td><td></td>' . PHP_EOL;
         } else if ($row['type'] == 'remove') {
             echo '<td class="change label">Odpadá</td><td></td><td></td>' . PHP_EOL;
+        } else if ($row['type'] == 'unknown') {
+            echo '<td class="change label">Neznámá událost</td><td class="change to">Sledujte web Škola Online</td><td></td>' . PHP_EOL;
+        } else if ($row['type'] == 'merge') {
+            echo '<td class="change label">Spojení</td>
+            <td class="change to">'.$row['to'].'</td>
+            <td class="change from">'.$row['from'].'</td>' . PHP_EOL;
         }
     }
     echo '</tr>' . PHP_EOL;
