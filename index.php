@@ -1,15 +1,19 @@
 <?php
 
-$opts = array('http'=>array('header' => "User-Agent:GPJP-API-agent/1.0\r\n"));
-$context = stream_context_create($opts);
+if (!file_exists('./temp_data'))
+    mkdir('./temp_data');
 
-$html = file_get_contents("https://aplikace.skolaonline.cz/SOL/PublicWeb/gpjp/KWE014_VypisTridDenni.aspx", false, $context);
+if (!file_exists('./temp_data/store') || filemtime('./temp_data/store') < time() - 10 * 60) {
+    $opts = array('http'=>array('header' => "User-Agent:GPJP-API-agent/1.0\r\n"));
+    $context = stream_context_create($opts);
 
-//file_put_contents("./test_data", $html);
-//exit;
-//*/
+    $html = file_get_contents("https://aplikace.skolaonline.cz/SOL/PublicWeb/gpjp/KWE014_VypisTridDenni.aspx", false, $context);
 
-//$html = file_get_contents("./test_data");
+    file_put_contents('./temp_data/store', $html);
+} else {
+    $html = file_get_contents('./temp_data/store');
+}
+
 $html = mb_convert_encoding($html, 'HTML-ENTITIES', "UTF-8");
 
 $doc = new DOMDocument();
