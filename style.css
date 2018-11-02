@@ -121,9 +121,13 @@ td.time {
 }
 
 td.time span.hour {
-    font-size: 40px;
+    font-size: 50px;
     color: var(--time-hour-color);
-    font-weight: 100;
+    font-weight: 200;
+    width: 40px;
+    display: inline-block;
+    text-indent: 0;
+    text-align: left;
 }
 
 td.time span.subject {

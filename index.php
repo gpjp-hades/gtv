@@ -133,7 +133,7 @@ foreach ($nlist as $node) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Dashboard</title>
-    <link href="https://fonts.googleapis.com/css?family=Oswald:300,400" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Oswald:200,300,400" rel="stylesheet">
     <link rel="stylesheet" href="./style.css" />
     <script src="./script.js"></script>
 </head>
@@ -167,7 +167,7 @@ foreach ($data as $class => $rows) {
     $first = 1;
     foreach ($rows as $row) {
         if ($first) {
-            echo '<tr class="border"><td class="course" rowspan="'.$row_c.'">'.$class.'</td>' . PHP_EOL;
+            echo '<tr class="border"><td class="course" rowspan="'.$row_c.'">'.strtoupper($class).'</td>' . PHP_EOL;
             $first = 0;
         } else echo '<tr>' . PHP_EOL;
         echo '<td class="time"><span class="hour">'.
