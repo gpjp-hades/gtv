@@ -87,7 +87,10 @@ tr.header th.small {
 
 tr.border td {
     border-top: var(--border-top-color) solid 8px;
-    padding-top: 10px;
+}
+
+table.body tr td {
+    padding-bottom: 8px;
 }
 
 td.course {
