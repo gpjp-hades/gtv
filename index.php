@@ -143,6 +143,7 @@ foreach ($nlist as $node) {
         <span class="right">Informace jsou aktualizovány každých 10 minut</span>
     </div>
     <h1 class="title">Změny v rozvrhu</h1>
+    <img src="./logo.svg" class="logo" />
     <table class="header" cellspacing="0">
         <tr class="header">
             <th style="width: 12%; text-indent: 3%;">Třída</th>
