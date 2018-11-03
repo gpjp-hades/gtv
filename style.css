@@ -164,3 +164,25 @@ td.change.to {
     font-size: 50px;
     margin-right: 30px;
 }
+
+div.inform {
+    width: calc(100% - 100px);
+    height: calc(100% - 100px);
+    text-align: center;
+    font-family: 'Oswald', sans-serif;
+    font-size: 120px;
+    padding: 50px;
+    padding-top: 5%;
+    color: var(--title-color);
+}
+
+div.nochange {
+    width: calc(100% - 100px);
+    height: calc(100% - 100px);
+    text-align: center;
+    font-family: 'Oswald', sans-serif;
+    font-size: 100px;
+    color: var(--title-color);
+    padding: 50px;
+    padding-top: 15%;
+}

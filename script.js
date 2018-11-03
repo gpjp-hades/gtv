@@ -5,6 +5,7 @@ window.onload=function () {
 
 function startScroll() {
     let tab1 = document.getElementById("tab1")
+    if (!tab1) return;
     let tab1Height = parseInt(window.getComputedStyle(tab1).height)
     let tab2, top
     
