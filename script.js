@@ -1,6 +1,6 @@
 window.onload=function () {
-    startScroll()
     setTimeout(function() {window.location.reload()}, 10 * 60 * 1000)
+    startScroll()
     startClock()
 }
 
