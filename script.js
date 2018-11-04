@@ -1,6 +1,21 @@
 window.onload=function () {
     startScroll()
     setTimeout(function() {window.location.reload()}, 10 * 60 * 1000)
+    startClock()
+}
+
+function startClock() {
+    let elm = document.getElementById("time")
+    if (!elm) return
+    
+    setInterval(loopClock, 1000)
+    function loopClock() {
+        let time = new Date()
+        elm.innerHTML = 
+            ("0" + time.getHours()).slice(-2) + 
+            "<span" + (time.getSeconds()%2?' class="light"':"") + ">:</span>" +
+            ("0" + time.getMinutes()).slice(-2)
+    }
 }
 
 function startScroll() {

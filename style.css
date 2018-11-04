@@ -6,6 +6,7 @@
     --time-hour-color:  rgb(84, 90, 95);
     --time-subject-color:  rgb(34, 46, 58);;
     --border-top-color: rgb(0, 67, 167);
+    --time-hour-color-light:  rgb(167, 172, 177);
 }
 
 html {
@@ -185,4 +186,26 @@ div.nochange {
     color: var(--title-color);
     padding: 50px;
     padding-top: 15%;
+}
+
+div.time {
+    position: absolute;
+    top: 11px;
+    right: 24px;
+    font-family: 'Dosis', sans-serif;
+    font-size: 63px;
+    letter-spacing: 5px;
+    color: var(--time-hour-color);
+}
+
+div.time span {
+    width: 21px;
+    display: inline-block;
+    position: relative;
+    top: -9px;
+    text-align: center;
+}
+
+div.time span.light {
+    color: var(--time-hour-color-light);
 }

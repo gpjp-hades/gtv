@@ -138,6 +138,7 @@ foreach ($nlist as $node) {
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Dashboard</title>
     <link href="https://fonts.googleapis.com/css?family=Oswald:200,300,400" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Dosis" rel="stylesheet">
     <link rel="stylesheet" href="./style.css" />
     <script src="./script.js"></script>
 </head>
@@ -155,7 +156,8 @@ elseif (count($data) == 0):
     echo '<div class="nochange">Rozvrh je beze změny.</div>';
 else:?>
     <h1 class="title">Změny v rozvrhu</h1>
-    <img src="./logo.svg" class="logo" />
+    <!--img src="./logo.svg" class="logo" /-->
+    <div class="time" id="time"></div>
     <table class="header" cellspacing="0">
         <tr class="header">
             <th style="width: 12%; text-indent: 3%;">Třída</th>
