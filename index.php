@@ -150,11 +150,11 @@ foreach ($nlist as $node) {
         <span class="right">Informace jsou aktualizovány každých 10 minut</span>
     </div>
 <?php
-if (date("N") > 5):
+/*if (date("N") > 5):
     echo '<div class="inform">Informujte IT tým, že se televize přes víkend nevypnula.</div>';
 elseif (date("G") < 5 || date("G") > 20):
     echo '<div class="inform">Informujte IT tým, že se televize přes noc nevypnula.</div>';
-elseif (count($data) == 0):
+else*/if (count($data) == 0):
     echo '<div class="nochange">Rozvrh je beze změny.</div>';
 else:?>
     <h1 class="title">Změny v rozvrhu</h1>
