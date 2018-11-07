@@ -239,7 +239,7 @@ foreach ($data as $class => $rows) {
         } else if ($row['type'] == 'action') {
             echo '<td class="change label">Školní akce</td><td class="change to">Sledujte web Škola Online</td><td></td>' . PHP_EOL;
         } else if ($row['type'] == 'meeting') {
-            echo '<td class="change label">Třídnická h.</td>
+            echo '<td class="change label">Třídnická hod.</td>
             <td class="change to">'.$row['teacher'].'</td><td></td>' . PHP_EOL;
         }
     }
