@@ -11,6 +11,9 @@
 
 html {
     min-height: 100%;
+    zoom: 1.2;
+    -moz-transform: scale(1.2); 
+    -moz-transform-origin: 0 0;
 }
 
 body {

@@ -21,18 +21,24 @@ libxml_use_internal_errors(true);
 $doc->loadHTML($html);
 $xpath = new DOMXPath($doc);
 
-$nlist = $xpath->query("//td[@class='KuvSuplujiciHodina']");
+$nlist = $xpath->query("//td[@class='KuvSuplujiciHodina' or @class='KuvSkolniAkceHodina' or @class='KuvOUTridnickaHodina']");
 
 $data = [];
 
 foreach ($nlist as $node) {
     $tooltip = $node->getAttribute('onmouseover');
-
+    $type = $node->getAttribute('class');
+    
+    //$sspos = [strpos($tooltip, "tip('"), strpos($tooltip, "','")];
+    //$subject = substr($tooltip, $sspos[0]+5, $sspos[1] - $sspos[0]-6);
     $ttp_str = explode("~", substr($tooltip, strpos($tooltip, "','")+3, -2));
     $entry = [];
     for ($i = 0; $i < count($ttp_str); $i += 2) {
         $entry[$ttp_str[$i]] = $ttp_str[$i+1];
     }
+
+    if (!array_key_exists("Učebna:", $entry))
+        $entry["Učebna:"] = "?";
     
     foreach (explode(", ", $entry["Třída:"]) as $class) {
 
@@ -40,9 +46,20 @@ foreach ($nlist as $node) {
 
         if (!array_key_exists($class, $data))
             $data[$class] = [];
-
+        
         $new = [];
-        if (array_key_exists("Výměna za:", $entry)) {
+        if ($type == "KuvSkolniAkceHodina") {
+            $new = [
+                "time"    => $time,
+                "type"    => "action"
+            ];
+        } else if ($type == "KuvOUTridnickaHodina") {
+            $new = [
+                "time"    => $time,
+                "type"    => "meeting",
+                "teacher" => $entry["Učitel:"]
+            ];
+        } else if (array_key_exists("Výměna za:", $entry)) {
             $new = [
                 "time"    => $time,
                 "subject" => explode(", ", $entry["Výměna za:"])[1],
@@ -63,8 +80,8 @@ foreach ($nlist as $node) {
                     "time"    => $time,
                     "subject" => $info_text[1],
                     "type"    => "room",
-                    "from"    => $entry["Učebna:"],
-                    "to"      => $info_text[count($info_text)-1]
+                    "from"    => $info_text[count($info_text)-1],
+                    "to"      => $entry["Učebna:"]
                 ];
             } else if (strpos($entry["Nahrazuje hodiny:"], "<span class=AbsZdroj>") !== false) {
                 $new = [
@@ -94,6 +111,14 @@ foreach ($nlist as $node) {
                     "type"    => "merge",
                     "from"    => $info2[4] . " - " . str_replace(["<span class=AbsZdroj>", "</span>"], "", $info2[2]),
                     "to"      => $info1[4] . " - " . $info1[2]
+                ];
+            } else if ($info1[count($info1)-1] != $info2[count($info2)-1]) {
+                $new = [
+                    "time"    => $time,
+                    "subject" => $info1[1],
+                    "type"    => "merge",
+                    "from"    => $info1[count($info1)-1] . ", " . $info2[count($info2)-1],
+                    "to"      => $entry['Učebna:']
                 ];
             }
         }
@@ -189,7 +214,7 @@ foreach ($data as $class => $rows) {
         echo '<td class="time"><span class="hour">'.
         $row['time'].
         '.</span><span class="subject">'.
-        explode(" ", (array_key_exists('subject', $row) ? $row['subject'] : "?"))[0].
+        explode(" ", (array_key_exists('subject', $row) ? $row['subject'] : ""))[0].
         '</span></td>' . PHP_EOL;
         
         if ($row['type'] == 'room') {
@@ -206,11 +231,16 @@ foreach ($data as $class => $rows) {
         } else if ($row['type'] == 'remove') {
             echo '<td class="change label">Odpadá</td><td></td><td></td>' . PHP_EOL;
         } else if ($row['type'] == 'unknown') {
-            echo '<td class="change label">Neznámá událost</td><td class="change to">Sledujte web Škola Online</td><td></td>' . PHP_EOL;
+            echo '<td class="change label">Neznámo</td><td class="change to">Sledujte web Škola Online</td><td></td>' . PHP_EOL;
         } else if ($row['type'] == 'merge') {
             echo '<td class="change label">Spojení</td>
             <td class="change to">'.$row['to'].'</td>
             <td class="change from">'.$row['from'].'</td>' . PHP_EOL;
+        } else if ($row['type'] == 'action') {
+            echo '<td class="change label">Školní akce</td><td class="change to">Sledujte web Škola Online</td><td></td>' . PHP_EOL;
+        } else if ($row['type'] == 'meeting') {
+            echo '<td class="change label">Třídnická h.</td>
+            <td class="change to">'.$row['teacher'].'</td><td></td>' . PHP_EOL;
         }
     }
     echo '</tr>' . PHP_EOL;
@@ -218,6 +248,8 @@ foreach ($data as $class => $rows) {
 endif;
 
 function roomName($room) {
+    if ($room == "?")
+        return "?";
     if (substr($room, 0, 1) == "J")
         return "Jer" . substr($room, 3);
     return "U" . $room;
