@@ -19,6 +19,7 @@ html {
 body {
     min-height: 100%;
     margin: 0;
+    overflow-y: hidden;
 }
 
 div.footer {
