@@ -33,7 +33,7 @@ function startScroll() {
     }
 
     function moveDown() {
-        top -= 1;
+        top -= 2;
         if (tab2) {
             tab2.style.top = (top + tab1Height) + "px"
         }
