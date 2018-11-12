@@ -1,10 +1,10 @@
 <?php
 
 namespace setup {
-if (!file_exists('../temp_data'))
-    mkdir('../temp_data');
+if (!file_exists('../.data'))
+    mkdir('../.data');
 
-if (!file_exists('../temp_data/auth')):
+if (!file_exists('../.data/auth')):
     if (
         !array_key_exists("pass1", $_POST)
         || !array_key_exists("pass2", $_POST)
@@ -19,7 +19,7 @@ if (!file_exists('../temp_data/auth')):
         } while ((microtime(true) - $start) < 0.1);
 
         $auth = password_hash($_POST['pass1'], PASSWORD_BCRYPT, ["cost" => $cost]);
-        file_put_contents('../temp_data/auth', $auth);
+        file_put_contents('../.data/auth', $auth);
         goto setup_end;
     }
 ?>
@@ -41,7 +41,7 @@ namespace auth {
 session_start();
 if (@$_SESSION['authed'] !== true):
     if (array_key_exists('pass', $_POST)) {
-        if (password_verify($_POST['pass'], file_get_contents('../temp_data/auth'))) {
+        if (password_verify($_POST['pass'], file_get_contents('../.data/auth'))) {
             $_SESSION['authed'] = true;
             goto auth_end;
         } else $error = true;
