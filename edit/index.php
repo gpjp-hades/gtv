@@ -2,7 +2,7 @@
 define('DATA_PATH', __DIR__ . '/../.data');
 define('UPLOAD_PATH', __DIR__ . '/../img');
 define('ALLOWED_FILE_TYPES', ['jpg', 'jpeg', 'png', 'bmp']);
-define('MAX_FILE_SIZE', 500000);
+define('MAX_FILE_SIZE', 5000000); // 5MB
 
 session_start();
 
