@@ -1,22 +1,28 @@
 .images ul {
-    padding: 0;
     margin-left: 25px;
     margin-top: 20px;
     display: inline-block;
-    width: calc(100% - 50px);
+    width: calc(100% - 90px);
+    text-align: center;
+    background: #fff;
+    padding: 20px;
+    box-shadow: 0 0 5px #0000003b;
+    border-radius: 3px;
+    border: thin solid #b0b0b0;
 }
 
 .images li {
     position: relative;
     display: inline-block;
+    vertical-align: top;
 }
 
 .images a {
     text-decoration: none;
     font-family: sans-serif;
     position: absolute;
-    top: 5px;
-    right: 8px;
+    top: 11px;
+    right: 11px;
     color: #fff;
     background: #F44336;
     border-radius: 50%;
@@ -30,15 +36,36 @@
     background: #e53935;
 }
 
+.images h4 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 100;
+    margin: 0;
+    color: #6c6c6c;
+}
+
 .images img {
     max-width: 200px;
     max-height: 200px;
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.24);
+    border: thin solid #b3b3b3;
+    margin: 5px;
+}
+
+.upload {
+    margin-left: 25px;
+    margin-top: 20px;
+    display: inline-block;
+    width: calc(100% - 90px);
+    text-align: center;
+    background: #fff;
+    padding: 4px 20px 22px 20px;
+    box-shadow: 0 0 5px #0000003b;
+    border-radius: 3px;
+    border: thin solid #b0b0b0;
 }
 
 .upload h4 {
-    display: inline-block;
-    font-family: sans-serif;
+    font-family: "Roboto", sans-serif;
     font-weight: 100;
 }
 
@@ -51,11 +78,11 @@ h4.message {
 }
 
 body {
-    background: #757575; /* fallback for old browsers */
-    background: -webkit-linear-gradient(right, #757575, #9E9E9E);
-    background: -moz-linear-gradient(right, #757575, #9E9E9E);
-    background: -o-linear-gradient(right, #757575, #9E9E9E);
-    background: linear-gradient(to left, #757575, #9E9E9E);
+    background: #EEEEEE;
+    background: -webkit-linear-gradient(right, #F5F5F5, #EEEEEE);
+    background: -moz-linear-gradient(right, #F5F5F5, #EEEEEE);
+    background: -o-linear-gradient(right, #F5F5F5, #EEEEEE);
+    background: linear-gradient(to left, #F5F5F5, #EEEEEE);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;  
 }

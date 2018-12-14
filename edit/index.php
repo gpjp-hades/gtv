@@ -238,12 +238,16 @@ function renderDash($images, $text = "") { ?>
 </div>
 <div class="images">
     <ul>
+        <?php if (count($images)):?>
         <?php foreach ($images as $image):?>
         <li>
         <img src="../img/<?=$image?>" />
         <a href="?delete&img=<?=base64_encode($image)?>">X</a>
         </li>
         <?php endforeach;?>
+        <?php else:?>
+        <h4>No images were uploaded</h4>
+        <?php endif;?>
     </ul>
 </div>
 <?=renderFooter()?>

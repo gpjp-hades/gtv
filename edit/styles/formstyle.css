@@ -14,6 +14,8 @@
   padding: 45px;
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+  border: thin solid #b0b0b0;
+  border-radius: 3px;
 }
 .form input {
   font-family: "Roboto", sans-serif;
@@ -44,12 +46,12 @@
   background: #616161;
 }
 body {
-  background: #757575; /* fallback for old browsers */
-  background: -webkit-linear-gradient(right, #757575, #9E9E9E);
-  background: -moz-linear-gradient(right, #757575, #9E9E9E);
-  background: -o-linear-gradient(right, #757575, #9E9E9E);
-  background: linear-gradient(to left, #757575, #9E9E9E);
+  background: #EEEEEE;
+  background: -webkit-linear-gradient(right, #F5F5F5, #EEEEEE);
+  background: -moz-linear-gradient(right, #F5F5F5, #EEEEEE);
+  background: -o-linear-gradient(right, #F5F5F5, #EEEEEE);
+  background: linear-gradient(to left, #F5F5F5, #EEEEEE);
   font-family: "Roboto", sans-serif;
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;      
+  -moz-osx-font-smoothing: grayscale;
 }
