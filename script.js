@@ -49,8 +49,13 @@ function toggleImage() {
         } else {
             // hide slideshow
             elm.style.display = 'none'
-            if (num < 5)
+            if (num < 5) {
                 setProgress((5 - num) * 60)
+                setTimeout(toggleImage, (5 - num) * 60 * 1000)
+            } else {
+                setProgress(5 * 60)
+                setTimeout(toggleImage, 5 * 60 * 1000)
+            }
         }
     }
 
