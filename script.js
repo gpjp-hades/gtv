@@ -8,13 +8,14 @@ window.onload=function () {
 function setProgress(time) {
     // set correct animation speed for progress bar and reset it to zero
     let elm = document.getElementById('progress')
-    if (elm) {
-        elm.style.transition = "none"
-        elm.style.width = "0"
-        // trick to force borwser to update element style
-        setTimeout(zero, 100)
-    }
-    function zero() {
+    if (!elm) return
+
+    elm.style.transition = "none"
+    elm.style.width = "0"
+    // trick to force borwser to update element style
+    setTimeout(progressRun, 100)
+
+    function progressRun() {
         elm.style.transition = "width " + time + "s linear"
         elm.style.width = "100%"
     }
@@ -23,39 +24,39 @@ function setProgress(time) {
 function startImage() {
     // manage image loop
     let elm = document.getElementById('images')
-    if (elm) {
-        setProgress(5 * 60)
-        setTimeout(toggleImage, 5 * 60 * 1000)
-    }
+    if (!elm) return
+
+    setProgress(5 * 60)
+    setTimeout(toggleImage, 5 * 60 * 1000)
 }
 
 function toggleImage() {
     // show/hide image
     let elm = document.getElementById('images')
     let loopID, imageTime
-    if (elm) {
-        num = elm.childElementCount
-        imageTime = num < 5 ? 1 : 5 / num
-        if (window.getComputedStyle(elm).getPropertyValue('display') == 'none') {
-            // show slideshow
-            elm.style.display = 'initial'
+    if (!elm) return
 
-            // get number of images to determine time for each one
-            // total show time is 10 minutes timetable will always get min 5 minutes
-            // every image will get max 1 minute of display time
-            
-            loopImage()
-            loopID = setInterval(loopImage, imageTime * 60 * 1000)
+    num = elm.childElementCount
+    imageTime = num < 5 ? 1 : 5 / num
+    if (window.getComputedStyle(elm).getPropertyValue('display') == 'none') {
+        // show slideshow
+        elm.style.display = 'initial'
+
+        // get number of images to determine time for each one
+        // total show time is 10 minutes timetable will always get min 5 minutes
+        // every image will get max 1 minute of display time
+        
+        loopImage()
+        loopID = setInterval(loopImage, imageTime * 60 * 1000)
+    } else {
+        // hide slideshow
+        elm.style.display = 'none'
+        if (num < 5) {
+            setProgress((5 - num) * 60)
+            setTimeout(toggleImage, (5 - num) * 60 * 1000)
         } else {
-            // hide slideshow
-            elm.style.display = 'none'
-            if (num < 5) {
-                setProgress((5 - num) * 60)
-                setTimeout(toggleImage, (5 - num) * 60 * 1000)
-            } else {
-                setProgress(5 * 60)
-                setTimeout(toggleImage, 5 * 60 * 1000)
-            }
+            setProgress(5 * 60)
+            setTimeout(toggleImage, 5 * 60 * 1000)
         }
     }
 
@@ -115,24 +116,38 @@ function startClock() {
 function startScroll() {
     let tab1 = document.getElementById("tab1")
     if (!tab1) return;
-    let tab1Height = parseInt(window.getComputedStyle(tab1).height)
-    let tab2, top
+
+    let tab2, time = 0
     
-    if (tab1Height + 192 > window.innerHeight) {
+    if (tab1.scrollHeight + 192 > window.innerHeight) {
+        // clone main table and paste it under table
         tab2 = tab1.cloneNode(true)
         tab2.setAttribute('id', 'tab2')
         document.body.appendChild(tab2)
-        top = 162
-        setInterval(moveDown, 50)
+        
+        // calculate time to scroll
+        time = Math.ceil((tab1.scrollHeight + window.innerHeight) / 80); // velocity
+
+        moveDown()
+        setInterval(moveDown, (time * 1000) + 50)
     }
 
     function moveDown() {
-        top -= 2;
-        if (tab2) {
-            tab2.style.top = (top + tab1Height) + "px"
+        // zero element top
+        tab1.style.transition = "none"
+        tab1.style.top = "162px"
+        
+        tab2.style.transition = "none"
+        tab2.style.top = (tab1.scrollHeight + 162) + "px"
+
+        setTimeout(scrollRun, 50)
+
+        function scrollRun() {
+            tab1.style.transition = "top " + time + "s linear"
+            tab1.style.top = "-" + (tab1.scrollHeight - 162) + "px"
+
+            tab2.style.transition = "top " + time + "s linear"
+            tab2.style.top = "162px"
         }
-        tab1.style.top = top + "px"
-        if (top*-1 + 162 > tab1Height)
-            top = 162
     }
 }

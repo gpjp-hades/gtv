@@ -64,6 +64,8 @@ table.body {
     width: 100%;
     z-index: -1;
     position: absolute;
+    transition: top 2s linear;
+    top: 161px;
 }
 
 table.header {
