@@ -92,14 +92,14 @@ function manageUpload() {
         if($check === false)
             return "File is not an image.";
     }
-
-    if (file_exists($target_file))
-        return "File already exists.";
     
-    if ($_FILES["fileToUpload"]["size"] > MAX_FILE_SIZE)
+    if ($_FILES["image"]["size"] > MAX_FILE_SIZE)
         return "File is too large.";
     
-    if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file))
+    $tmpName = tempnam(UPLOAD_PATH, "");
+    $newName = pathinfo($tmpName, PATHINFO_FILENAME) . '.' . $imageFileType;
+    unlink($tmpName);
+    if (move_uploaded_file($_FILES["image"]["tmp_name"], UPLOAD_PATH . '/' . $newName))
         return true;
     else
         return "Error while uploading file.";
@@ -145,6 +145,7 @@ function validateLogin() {
             } else
                 $_SESSION['logged'] = 0;
         }
+        sleep(2);
         return false;
     } else if ($_SESSION['logged'] > time() - 5 * 60) {
         $_SESSION['logged'] = time();

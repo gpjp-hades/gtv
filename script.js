@@ -2,6 +2,95 @@ window.onload=function () {
     setTimeout(function() {window.location.reload()}, 10 * 60 * 1000)
     startScroll()
     startClock()
+    startImage()
+}
+
+function setProgress(time) {
+    // set correct animation speed for progress bar and reset it to zero
+    let elm = document.getElementById('progress')
+    if (elm) {
+        elm.style.transition = "none"
+        elm.style.width = "0"
+        // trick to force borwser to update element style
+        setTimeout(zero, 100)
+    }
+    function zero() {
+        elm.style.transition = "width " + time + "s linear"
+        elm.style.width = "100%"
+    }
+}
+
+function startImage() {
+    // manage image loop
+    let elm = document.getElementById('images')
+    if (elm) {
+        setProgress(5 * 60)
+        setTimeout(toggleImage, 5 * 60 * 1000)
+    }
+}
+
+function toggleImage() {
+    // show/hide image
+    let elm = document.getElementById('images')
+    let loopID, imageTime
+    if (elm) {
+        num = elm.childElementCount
+        imageTime = num < 5 ? 1 : 5 / num
+        if (window.getComputedStyle(elm).getPropertyValue('display') == 'none') {
+            // show slideshow
+            elm.style.display = 'initial'
+
+            // get number of images to determine time for each one
+            // total show time is 10 minutes timetable will always get min 5 minutes
+            // every image will get max 1 minute of display time
+            
+            loopImage()
+            loopID = setInterval(loopImage, imageTime * 60 * 1000)
+        } else {
+            // hide slideshow
+            elm.style.display = 'none'
+            if (num < 5)
+                setProgress((5 - num) * 60)
+        }
+    }
+
+    function loopImage() {
+        setProgress(imageTime * 60)
+        if (!nextImage()) {
+            clearInterval(loopID)
+            toggleImage()
+        }
+    }
+}
+
+function nextImage() {
+    // display next image
+    let elm = document.getElementById('images')
+    if (elm) {
+        if (window.getComputedStyle(elm).getPropertyValue('display') != 'none') {
+            // get node list and find first displayed image
+            // if none is found show first
+            // if last is found hide image and return false
+            active = null
+            for (let e of elm.children) {
+                if (window.getComputedStyle(e).getPropertyValue('display') != 'none') {
+                    if (active != null)
+                        active.style.display = 'null'
+                    active = e
+                }
+            }
+            if (active == null)
+                elm.firstElementChild.style.display = 'initial'
+            else if (active.nextElementSibling == null) {
+                active.style.display = 'none'
+                return false
+            } else {
+                active.style.display = 'none'
+                active.nextElementSibling.style.display = 'initial'
+            }
+        }
+        return true
+    }
 }
 
 function startClock() {

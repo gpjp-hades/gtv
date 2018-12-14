@@ -213,3 +213,35 @@ div.time span {
 div.time span.light {
     color: var(--time-hour-color-light);
 }
+
+div.progress {
+    position: fixed;
+    width: 100%;
+    height: 3px;
+    background: #fff;
+    bottom: 0;
+    z-index: 10;
+}
+
+div.progress #progress {
+    height: 100%;
+    background: #4CAF50;
+    transition-timing-function: linear;
+    -webkit-transition-timing-function: linear;
+}
+div#images {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    display: none;
+}
+
+div#images img {
+    object-fit: contain;
+    width: 100%;
+    height: 100%;
+    display: none;
+}

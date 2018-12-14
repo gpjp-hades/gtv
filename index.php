@@ -1,17 +1,20 @@
 <?php
+define('DATA_PATH', __DIR__ . '/.data');
+define('UPLOAD_PATH', __DIR__ . '/img');
+define('ALLOWED_FILE_TYPES', ['jpg', 'jpeg', 'png', 'bmp']);
 
-if (!file_exists('./.data'))
-    mkdir('./.data');
+if (!file_exists(DATA_PATH))
+    mkdir(DATA_PATH);
 
-if (!file_exists('./.data/store') || filemtime('./.data/store') < time() - 10 * 60) {
+if (!file_exists(DATA_PATH . '/store') || filemtime(DATA_PATH . '/store') < time() - 10 * 60) {
     $opts = array('http'=>array('header' => "User-Agent:GPJP-API-agent/1.0\r\n"));
     $context = stream_context_create($opts);
 
     $html = file_get_contents("https://aplikace.skolaonline.cz/SOL/PublicWeb/gpjp/KWE014_VypisTridDenni.aspx", false, $context);
 
-    file_put_contents('./.data/store', $html);
+    file_put_contents(DATA_PATH . '/store', $html);
 } else {
-    $html = file_get_contents('./.data/store');
+    $html = file_get_contents(DATA_PATH . '/store');
 }
 
 $html = mb_convert_encoding($html, 'HTML-ENTITIES', "UTF-8");
@@ -154,6 +157,13 @@ foreach ($nlist as $node) {
  *   from: {name}
  *   to:   {name}
  */
+
+$images = [];
+foreach (scandir(UPLOAD_PATH) as $file) {
+    if ($file == '.' || $file == '..') continue;
+    if (!in_array(strtolower(pathinfo($file, PATHINFO_EXTENSION)), ALLOWED_FILE_TYPES)) continue;
+    array_push($images, $file);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -256,5 +266,15 @@ function roomName($room) {
 }
 ?>
     </table>
+<?php if (count($images)):?>
+<div class="progress">
+  <div id="progress" style="width: 0;"></div>
+</div>
+<div id="images">
+<?php foreach ($images as $image):?>
+<img src="<?='./img/' . $image?>"/>
+<?php endforeach;?>
+</div>
+<?php endif;?>
 </body>
 </html>
