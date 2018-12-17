@@ -126,7 +126,7 @@ function startScroll() {
         document.body.appendChild(tab2)
         
         // calculate time to scroll
-        time = Math.ceil((tab1.scrollHeight + window.innerHeight) / 80); // velocity
+        time = Math.ceil((tab1.scrollHeight + window.innerHeight) / 50); // velocity
 
         moveDown()
         setInterval(moveDown, (time * 1000) + 50)
